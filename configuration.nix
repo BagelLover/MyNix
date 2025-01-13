@@ -149,15 +149,19 @@
   xorg.xsetroot
   xorg.xf86inputlibinput
   lua52Packages.lgi
-  gh
+  colloid-gtk-theme
+  colloid-icon-theme
+  vimix-cursor-theme
 
   # Essential applications
   firefox-bin
   kitty
   git
   pavucontrol
-  nemo
+  xfce.thunar
   xviewer
+  gh
+  kate
 
   # Games
   prismlauncher
