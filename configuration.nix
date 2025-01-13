@@ -75,7 +75,7 @@
   #services.xserver.displayManager.lightdm.greeters.gtk.enable = true;
 
   # Enable KDE
-  services.desktopManager.plasma6.enable = true;
+  # services.desktopManager.plasma6.enable = true;
 
   # Enable udisks2
   services.udisks2.enable = true;
