@@ -63,7 +63,7 @@
 
       };
       displayManager = {
-      sddm.enable = true;
+      lightdm.enable = true;
       defaultSession = "none+awesome";
       };
   };
