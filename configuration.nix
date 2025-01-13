@@ -148,7 +148,6 @@
   spice-autorandr
   xorg.xsetroot
   xorg.xf86inputlibinput
-  lua52Packages.lgi
   orchis-theme
   noto-fonts
   colloid-icon-theme
@@ -159,7 +158,7 @@
   kitty
   git
   pavucontrol
-  xfce.thunar
+  nemo
   xviewer
   gh
   kate
