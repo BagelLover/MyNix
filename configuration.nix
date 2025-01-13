@@ -53,19 +53,21 @@
   services={
       xserver = {
           enable = true;
+          displayManager = {
+          lightdm.enable = true;
+          defaultSession = "none+awesome";
+          };
           windowManager.awesome = {
               enable = true;
               luaModules = with pkgs.luaPackages; [
                   luarocks
                   luadbi-mysql
+
               ];
           };
 
       };
-      displayManager = {
-      lightdm.enable = true;
-      defaultSession = "none+awesome";
-      };
+
   };
 
 
@@ -147,6 +149,7 @@
   xorg.xsetroot
   xorg.xf86inputlibinput
   lua52Packages.lgi
+  gh
 
   # Essential applications
   firefox-bin
