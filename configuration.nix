@@ -149,7 +149,8 @@
   xorg.xsetroot
   xorg.xf86inputlibinput
   lua52Packages.lgi
-  colloid-gtk-theme
+  orchis-theme
+  noto-fonts
   colloid-icon-theme
   vimix-cursor-theme
 
