@@ -149,9 +149,9 @@
   xorg.xsetroot
   xorg.xf86inputlibinput
   orchis-theme
-  noto-fonts
   colloid-icon-theme
   vimix-cursor-theme
+  jetbrains-mono
 
   # Essential applications
   firefox-bin
@@ -162,7 +162,7 @@
   xviewer
   gh
   kate
-
+  
   # Games
   prismlauncher
   heroic
