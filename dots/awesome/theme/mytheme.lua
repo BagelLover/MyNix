@@ -1,6 +1,6 @@
----------------------------
--- Default awesome theme --
----------------------------
+-----------------------------------------
+-- Not quite the default awesome theme --
+-----------------------------------------
 
 local theme_assets = require("beautiful.theme_assets")
 local xresources = require("beautiful.xresources")
