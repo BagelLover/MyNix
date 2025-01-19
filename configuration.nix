@@ -55,6 +55,7 @@
           enable = true;
           displayManager = {
           lightdm.enable = true;
+          lightdm.greeters.pantheon.enable
           defaultSession = "none+awesome";
           };
           windowManager.awesome = {
@@ -152,6 +153,7 @@
   colloid-icon-theme
   vimix-cursor-theme
   jetbrains-mono
+  nitrogen
 
   # Essential applications
   firefox-bin
