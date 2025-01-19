@@ -55,7 +55,7 @@
           enable = true;
           displayManager = {
           lightdm.enable = true;
-          lightdm.greeters.pantheon.enable
+          lightdm.greeters.pantheon.enable = true;
           defaultSession = "none+awesome";
           };
           windowManager.awesome = {
