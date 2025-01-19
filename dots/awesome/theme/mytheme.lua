@@ -9,29 +9,33 @@ local dpi = xresources.apply_dpi
 local gfs = require("gears.filesystem")
 local themes_path = gfs.get_themes_dir()
 
+-- Wallust colors-----------------------------------------------------------------------
+local colors = dofile(os.getenv("HOME") .. "/.config/awesome-colors.lua")
+----------------------------------------------------------------------------------------
+-- "#535d6c"
 local theme = {}
 
 theme.font          = "Jetbrains Mono 10"
 
-theme.bg_normal     = "#222222"
-theme.bg_focus      = "#535d6c"
-theme.bg_urgent     = "#ff0000"
-theme.bg_minimize   = "#444444"
+theme.bg_normal     = colors.bg
+theme.bg_focus      = colors.color3
+theme.bg_urgent     = colors.color4
+theme.bg_minimize   = colors.sel_bg
 theme.bg_systray    = theme.bg_normal
 
-theme.fg_normal     = "#aaaaaa"
-theme.fg_focus      = "#ffffff"
-theme.fg_urgent     = "#ffffff"
-theme.fg_minimize   = "#ffffff"
+theme.fg_normal     = colors.fg
+theme.fg_focus      = colors.fg
+theme.fg_urgent     = colors.fg
+theme.fg_minimize   = colors.fg
 
 theme.useless_gap   = dpi(0)
 theme.border_width  = dpi(1)
-theme.border_normal = "#000000"
-theme.border_focus  = "#535d6c"
-theme.border_marked = "#91231c"
+theme.border_normal = colors.bg
+theme.border_focus  = colors.color3
+theme.border_marked = colors.color6
 
 -- Snap theme
-theme.snap_bg = "#535d6c"
+theme.snap_bg = colors.color3
 theme.snap_border_width = 2
 
 -- There are other variable sets

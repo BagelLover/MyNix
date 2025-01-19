@@ -22,6 +22,5 @@
   # Manage my dots folders
   home.file.".config/awesome".source = ./dots/awesome;
   home.file.".config/picom".source = ./dots/picom;
-  home.file.".config/rofi".source = ./dots/rofi;
-
+  # home.file.".config/wallust".source = ./dots/wallust;
 }
