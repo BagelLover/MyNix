@@ -44,8 +44,9 @@ function _M.get()
 
   -- Main Menu
   local menu_items = {
+    { "wallpaper", function() awful.spawn.with_shell("~/.config/awesome/main/wallpaper.sh") end },
     { "awesome", M.awesome, beautiful.awesome_subicon },
-    { "open terminal", terminal }
+    { "terminal", terminal }
   }
 
   return menu_items
