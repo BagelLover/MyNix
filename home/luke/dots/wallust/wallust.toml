@@ -1,0 +1,7 @@
+[templates]
+awesome.template = 'awesome-colors.lua'
+awesome.target = '~/.config/awesome-colors.lua'
+rofi.template = 'rofi-template.rasi'
+rofi.target = '~/.config/rofi/config.rasi'
+kitty.template = 'kitty.conf'
+kitty.target = '~/.config/kitty/kitty.conf'
