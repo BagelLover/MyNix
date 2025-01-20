@@ -1,6 +1,8 @@
 -- Standard awesome library
 local awful = require("awful")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
+local gears = require("gears")
+
 -- Theme handling library
 local beautiful = require("beautiful") -- for awesome.icon
 
@@ -44,7 +46,9 @@ function _M.get()
 
   -- Main Menu
   local menu_items = {
-    { "wallpaper", function() awful.spawn.with_shell("~/.config/awesome/main/wallpaper.sh") end },
+    { "Set Wallpaper", function ()
+    awful.spawn("sh " .. awful.util.getdir("config") .. "/main/wall.sh")
+    end },
     { "awesome", M.awesome, beautiful.awesome_subicon },
     { "terminal", terminal }
   }
