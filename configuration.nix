@@ -154,6 +154,7 @@
   vimix-cursor-theme
   jetbrains-mono
   feh
+  blueman
 
   # Essential applications
   firefox-bin
