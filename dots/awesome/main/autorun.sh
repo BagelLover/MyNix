@@ -1,2 +1,3 @@
 #!/bin/sh
-picom --use-damage --config $HOME/.config/picom/picom.conf
+picom --use-damage --config $HOME/.config/picom/picom.conf &
+~/.fehbg &
