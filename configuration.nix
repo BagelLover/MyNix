@@ -153,7 +153,7 @@
   colloid-icon-theme
   vimix-cursor-theme
   jetbrains-mono
-  nitrogen
+  feh
 
   # Essential applications
   firefox-bin
@@ -161,7 +161,6 @@
   git
   pavucontrol
   nemo
-  xviewer
   gh
   kate
   
