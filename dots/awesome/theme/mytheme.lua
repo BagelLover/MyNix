@@ -20,7 +20,7 @@ theme.font          = "Jetbrains Mono 10"
 theme.bg_normal     = colors.bg
 theme.bg_focus      = colors.color3
 theme.bg_urgent     = colors.color4
-theme.bg_minimize   = colors.sel_bg
+theme.bg_minimize   = colors.bg
 theme.bg_systray    = theme.bg_normal
 
 theme.fg_normal     = colors.fg
