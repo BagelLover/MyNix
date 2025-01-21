@@ -55,7 +55,7 @@
           enable = true;
           displayManager = {
           lightdm.enable = true;
-          lightdm.greeters.pantheon.enable = true;
+          lightdm.greeters.slick.enable = true;
           defaultSession = "none+awesome";
           };
           windowManager.awesome = {
@@ -163,7 +163,7 @@
   pavucontrol
   nemo
   gh
-  kate
+  geany
   
   # Games
   prismlauncher
