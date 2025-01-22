@@ -54,8 +54,7 @@
       xserver = {
           enable = true;
           displayManager = {
-          lightdm.enable = true;
-          lightdm.greeters.slick.enable = true;
+          sddm.enable = true;
           defaultSession = "none+awesome";
           };
           windowManager.awesome = {
