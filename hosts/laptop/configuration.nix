@@ -58,18 +58,29 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-  
+
+  # Enable auto-cpufreq daemon
+  services.auto-cpufreq.enable = true;
+
   # Display Manager
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
-  services.xserver.videoDrivers = [ "nvidia" ];
-
+  services.xserver.videoDrivers = [ "nvidia", "intel" ];
+  
   # Nvidia Stuff
   hardware.nvidia = { 
     modesetting.enable = true;
     powerManagement.enable = false;
     open = true;
     nvidiaSettings = true;
+    prime = {
+      offload = {
+        enable = true;
+        enableOffloadCmd = true;
+      };
+      intelBusId = "00:02.0"
+      nvidiaBusId = "58:00.0"
+    };
   };
 
   # List packages installed in system profile. To search, run:
@@ -77,6 +88,7 @@
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
+    firefox-bin
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
