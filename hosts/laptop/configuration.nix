@@ -23,7 +23,10 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-
+  
+  # Enable Razer RGB
+  hardware.openrazer.enable = true;
+  
   # Set your time zone.
   time.timeZone = "America/Phoenix";
 
@@ -60,36 +63,111 @@
   nixpkgs.config.allowUnfree = true;
 
   # Enable auto-cpufreq daemon
-  services.auto-cpufreq.enable = true;
-
+  services.power-profiles-daemon.enable = true;
+  services.auto-cpufreq.enable = false;
+  # Bluetooth
+  hardware.bluetooth.enable = true;
+  
+  # Enable Display Server
+  services.xserver.enable = true;
+  
   # Display Manager
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
-  services.xserver.videoDrivers = [ "nvidia", "intel" ];
+  services.xserver.videoDrivers = [ "nvidia" ];
   
+  # Enable Steam
+  programs.steam.enable = true;
+  
+  # Enable Monado
+  services.monado.enable = true;
+  
+ services.wivrn = {
+  enable = true;
+  openFirewall = true;
+
+  # Write information to /etc/xdg/openxr/1/active_runtime.json, VR applications
+  # will automatically read this and work with WiVRn (Note: This does not currently
+  # apply for games run in Valve's Proton)
+    defaultRuntime = true;
+
+  # Run WiVRn as a systemd service on startup
+  autoStart = true;
+
+  # Config for WiVRn (https://github.com/WiVRn/WiVRn/blob/master/docs/configuration.md)
+  config = {
+    enable = true;
+    json = {
+      # 1.0x foveation scaling
+      scale = 1.0;
+      # 100 Mb/s
+      bitrate = 100000000;
+      encoders = [
+        {
+          encoder = "vaapi";
+          codec = "h265";
+          # 1.0 x 1.0 scaling
+          width = 1.0;
+          height = 1.0;
+          offset_x = 0.0;
+          offset_y = 0.0;
+        }
+      ];
+    };
+  };
+};
+ 
   # Nvidia Stuff
   hardware.nvidia = { 
     modesetting.enable = true;
-    powerManagement.enable = false;
+    powerManagement.enable = true;
     open = true;
     nvidiaSettings = true;
-    prime = {
-      offload = {
-        enable = true;
-        enableOffloadCmd = true;
-      };
-      intelBusId = "00:02.0"
-      nvidiaBusId = "58:00.0"
-    };
   };
-
+  hardware.nvidia.prime = {
+    # Make sure to use the correct Bus ID values for your system!
+    intelBusId = "PCI:00:02.0";
+    nvidiaBusId = "PCI:58:00.0";
+    # amdgpuBusId = "PCI:54:0:0"; For AMD GPU
+  };
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
+    gnomeExtensions.blur-my-shell
+    gnomeExtensions.paperwm
+    gnomeExtensions.dock-from-dash
+    materia-theme-transparent
+    razergenie
     firefox-bin
+    anytype
+    envision-unwrapped
+    prismlauncher-unwrapped
+    monado-vulkan-layers
+    opencomposite
+    orca-slicer
+    freecad
   ];
+  
+environment.gnome.excludePackages = (with pkgs; [
+  atomix # puzzle game
+  cheese # webcam toolhardware.openrazer.enable
+  epiphany # web browser
+  evince # document viewer
+  geary # email reader
+  gedit # text editor
+  gnome-characters
+  gnome-music
+  gnome-photos
+  gnome-terminal
+  gnome-tour
+  hitori # sudoku game
+  iagno # go game
+  tali # poker game
+  totem # video player
+]);
+
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
