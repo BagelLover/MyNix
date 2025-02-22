@@ -21,7 +21,7 @@ local _M = {}
 
 -- {{{ Wibar
 -- Create a textclock widget
-mytextclock = wibox.widget.textclock(' <span font="FontAwesome 12"></span>  %H:%M ')
+mytextclock = wibox.widget.textclock(' <span font="FontAwesome 12"></span> %H:%M ')
 
 awful.screen.connect_for_each_screen(function(s)
   -- Wallpaper

@@ -8,11 +8,42 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ../shared/desktop/awesomewm.nix
     ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot = {
+    plymouth = {
+      enable = true;
+      theme = "rings";
+      themePackages = with pkgs; [
+        # By default we would install all themes
+        (adi1090x-plymouth-themes.override {
+          selected_themes = [ "rings" ];
+        })
+      ];
+    };
+
+    # Enable "Silent Boot"
+    consoleLogLevel = 0;
+    initrd.verbose = false;
+    kernelParams = [
+      "quiet"
+      "splash"
+      "boot.shell_on_fail"
+      "loglevel=3"
+      "rd.systemd.show_status=false"
+      "rd.udev.log_level=3"
+      "udev.log_priority=3"
+    ];
+    # Hide the OS choice for bootloaders.
+    # It's still possible to open the bootloader list by pressing any key
+    # It will just not appear on screen unless a key is pressed
+    # loader.timeout = 0;
+
+  };
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -42,53 +73,11 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-
-  # Custom stuff starts here, will probably need reworked...
-
   # Enable Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  # Enable the X11 windowing system.
-  #services.xserver.enable = true;
-  services={
-      xserver = {
-          enable = true;
-          displayManager = {
-          sddm.enable = true;
-          defaultSession = "none+awesome";
-          };
-          windowManager.awesome = {
-              enable = true;
-              luaModules = with pkgs.luaPackages; [
-                  luarocks
-                  luadbi-mysql
-
-              ];
-          };
-
-      };
-
-  };
-
-
-  # Enable window manager stuff
-  #services.xserver.windowManager.awesome.enable =  true;
-  #services.xserver.displayManager.lightdm.enable = true;
-  #services.xserver.displayManager.lightdm.greeters.gtk.enable = true;
-
-  # Enable KDE
-  # services.desktopManager.plasma6.enable = true;
-
-  # Enable udisks2
-  services.udisks2.enable = true;
-
-  # Enable Polkit
-  security.polkit.enable = true;
-
   # Enable bluetooth
   hardware.bluetooth.enable = true;
-
-  # Custom stuff ends here...
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -145,31 +134,32 @@
   lxappearance
   udiskie
   xorg.xrandr
-  spice-autorandr
   xorg.xsetroot
   xorg.xf86inputlibinput
   orchis-theme
-  colloid-icon-theme
+  adwaita-icon-theme
+  papirus-icon-theme 
   vimix-cursor-theme
-  jetbrains-mono
+  vanilla-dmz
   feh
-  blueman
-
+  neofetch
+  
   # Essential applications
-  firefox-bin
+  # firefox-bin
   kitty
   git
   pavucontrol
   nemo
   gh
-  geany
+  vscodium
+  blueman
   
   # Games
   prismlauncher
   heroic
 
   # Others
-
+  openrgb
   ];
 
 

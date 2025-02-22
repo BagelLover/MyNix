@@ -30,8 +30,18 @@ M.awesome = {
       hotkeys_popup.show_help(nil, awful.screen.focused()) 
     end },
   { "Terminal", terminal },
+  { "Restart", awesome.restart }
+}
+
+M.settings = {
+  { "Wallpaper", function ()
+    awful.spawn("sh " .. awful.util.getdir("config") .. "/main/wall.sh")
+    end }
+}
+
+M.logout = {
   { "Reboot", "reboot" },
-  { "Restart Awesome", awesome.restart },
+  { "Poweroff", "poweroff" },
   { "Quit", function() awesome.quit() end }
 }
 
@@ -46,11 +56,9 @@ function _M.get()
 
   -- Main Menu
   local menu_items = {
-    { "Set Wallpaper", function ()
-    awful.spawn("sh " .. awful.util.getdir("config") .. "/main/wall.sh")
-    end },
-    { "awesome", M.awesome, beautiful.awesome_subicon },
-    { "terminal", terminal }
+    { "Awesome", M.awesome, beautiful.awesome_subicon },
+    { "Settings", M.settings, beautiful.awesome_subicon },
+    { "Logout", M.logout, beautiful.awesome_subicon }
   }
 
   return menu_items

@@ -46,6 +46,29 @@ client.connect_signal("property::floating", function(c)
     end
 end)
 
+local function update_titlebars(c)
+    local layout = awful.layout.get(c.screen)
+    if c.floating or layout == awful.layout.suit.floating then
+        awful.titlebar.show(c)
+    else
+        awful.titlebar.hide(c)
+    end
+end
+
+-- Update titlebars when a window's floating state changes
+client.connect_signal("property::floating", update_titlebars)
+
+-- Update titlebars when a window is spawned
+client.connect_signal("manage", update_titlebars)
+
+-- Update titlebars when the layout changes
+tag.connect_signal("property::layout", function(t)
+    for _, c in ipairs(t:clients()) do
+        update_titlebars(c)
+    end
+end)
+
+
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
