@@ -9,10 +9,43 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
-
+  # Enable Flakes
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot = {
+
+    plymouth = {
+      enable = true;
+      theme = "rings";
+      themePackages = with pkgs; [
+        # By default we would install all themes
+        (adi1090x-plymouth-themes.override {
+          selected_themes = [ "rings" ];
+        })
+      ];
+    };
+
+    # Enable "Silent Boot"
+    consoleLogLevel = 0;
+    initrd.verbose = false;
+    kernelParams = [
+      "quiet"
+      "splash"
+      "boot.shell_on_fail"
+      "loglevel=3"
+      "rd.systemd.show_status=false"
+      "rd.udev.log_level=3"
+      "udev.log_priority=3"
+    ];
+    # Hide the OS choice for bootloaders.
+    # It's still possible to open the bootloader list by pressing any key
+    # It will just not appear on screen unless a key is pressed
+    loader.timeout = 0;
+
+  };
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -24,8 +57,9 @@
   # Enable networking
   networking.networkmanager.enable = true;
   
-  # Enable Razer RGB
-  hardware.openrazer.enable = true;
+  # Razer Laptop Control
+  # inputs.razerdaemon.url = "github:JosuGZ/razer-laptop-control";
+  # services.razer-laptop-control.enable = true;
   
   # Set your time zone.
   time.timeZone = "America/Phoenix";
@@ -62,61 +96,63 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Enable auto-cpufreq daemon
+  # Power Management (undecided)
   services.power-profiles-daemon.enable = true;
   services.auto-cpufreq.enable = false;
+  
   # Bluetooth
   hardware.bluetooth.enable = true;
   
-  # Enable Display Server
-  services.xserver.enable = true;
+  # Enable Gnome
+  services.xserver = {
+    enable = true;
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
+    # videoDrivers = [ "nvidia" ];
+  };
   
-  # Display Manager
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-  services.xserver.videoDrivers = [ "nvidia" ];
+  # Enable Syncthing
+  services.syncthing.enable = true;
   
   # Enable Steam
   programs.steam.enable = true;
   
-  # Enable Monado
-  services.monado.enable = true;
-  
- services.wivrn = {
-  enable = true;
-  openFirewall = true;
-
-  # Write information to /etc/xdg/openxr/1/active_runtime.json, VR applications
-  # will automatically read this and work with WiVRn (Note: This does not currently
-  # apply for games run in Valve's Proton)
-    defaultRuntime = true;
-
-  # Run WiVRn as a systemd service on startup
-  autoStart = true;
-
-  # Config for WiVRn (https://github.com/WiVRn/WiVRn/blob/master/docs/configuration.md)
-  config = {
+  # Enable and configure WiVRn
+  services.wivrn = {
     enable = true;
-    json = {
-      # 1.0x foveation scaling
-      scale = 1.0;
-      # 100 Mb/s
-      bitrate = 100000000;
-      encoders = [
-        {
-          encoder = "vaapi";
-          codec = "h265";
-          # 1.0 x 1.0 scaling
-          width = 1.0;
-          height = 1.0;
-          offset_x = 0.0;
-          offset_y = 0.0;
-        }
-      ];
+    openFirewall = true;
+
+    # Write information to /etc/xdg/openxr/1/active_runtime.json, VR applications
+    # will automatically read this and work with WiVRn (Note: This does not currently
+    # apply for games run in Valve's Proton)
+      defaultRuntime = true;
+
+    # Run WiVRn as a systemd service on startup
+    autoStart = true;
+
+    # Config for WiVRn (https://github.com/WiVRn/WiVRn/blob/master/docs/configuration.md)
+    config = {
+      enable = true;
+      json = {
+        # 1.0x foveation scaling
+        scale = 1.0;
+        # 100 Mb/s
+        bitrate = 100000000;
+        encoders = [
+          {
+            encoder = "vaapi";
+            codec = "h265";
+            # 1.0 x 1.0 scaling
+            width = 1.0;
+            height = 1.0;
+            offset_x = 0.0;
+            offset_y = 0.0;
+          }
+        ];
+      };
     };
   };
-};
- 
+  
   # Nvidia Stuff
   hardware.nvidia = { 
     modesetting.enable = true;
@@ -137,12 +173,9 @@
   #  wget
     gnomeExtensions.blur-my-shell
     gnomeExtensions.paperwm
-    gnomeExtensions.dock-from-dash
-    materia-theme-transparent
-    razergenie
+    gnomeExtensions.syncthing-toggle
     firefox-bin
     anytype
-    envision-unwrapped
     prismlauncher-unwrapped
     monado-vulkan-layers
     opencomposite
