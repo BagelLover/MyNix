@@ -106,11 +106,15 @@
   # Enable Gnome
   services.xserver = {
     enable = true;
-    displayManager.gdm.enable = true;
+    libinput.enable = true;
+    displayManager = {
+      gdm.enable = true;
+      defaultSession = "gnome";
+    };
     desktopManager.gnome.enable = true;
     # videoDrivers = [ "nvidia" ];
   };
-  
+ 
   # Enable Syncthing
   services.syncthing.enable = true;
   
