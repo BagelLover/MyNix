@@ -2,19 +2,23 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, ... }:
 
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ../shared/desktop/awesomewm.nix
     ];
-
+  # Enable Flakes
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "/dev/nvme0n1";
+  boot.loader.grub.useOSProber = true;
+  #boot.loader.efi.canTouchEfiVariables = true;
   boot = {
+
     plymouth = {
       enable = true;
       theme = "rings";
@@ -41,7 +45,7 @@
     # Hide the OS choice for bootloaders.
     # It's still possible to open the bootloader list by pressing any key
     # It will just not appear on screen unless a key is pressed
-    # loader.timeout = 0;
+    loader.timeout = 5;
 
   };
 
@@ -54,7 +58,7 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-
+ 
   # Set your time zone.
   time.timeZone = "America/Phoenix";
 
@@ -73,104 +77,44 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-  # Enable Flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  # Enable bluetooth
-  hardware.bluetooth.enable = true;
-
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
     variant = "";
   };
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  # Enable sound with pipewire.
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
-  };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.luke = {
     isNormalUser = true;
     description = "Luke";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-
-    ];
+    packages = with pkgs; [];
   };
-
-  # Install Steam
-  programs.steam.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-
-  fonts.packages = with pkgs; [
-    font-awesome
-    nerd-fonts.jetbrains-mono
-    nerd-fonts.caskaydia-cove
-    cantarell-fonts
-  ];
   
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-  # WM stuff
-  picom
-  rofi
-  wallust
-  polkit_gnome
-  lxappearance
-  udiskie
-  xorg.xrandr
-  xorg.xsetroot
-  xorg.xf86inputlibinput
-  orchis-theme
-  adwaita-icon-theme
-  papirus-icon-theme 
-  vimix-cursor-theme
-  vanilla-dmz
-  feh
-  neofetch
+  # Bluetooth
+  hardware.bluetooth.enable = true;
   
-  # Essential applications
-  # firefox-bin
-  kitty
-  git
-  pavucontrol
-  nemo
-  gh
-  vscodium
-  blueman
+  # Enable Gnome
+  services.xserver = {
+    enable = true;
+    libinput.enable = true;
+    displayManager = {
+      gdm.enable = true;
+      defaultSession = "gnome";
+    };
+    desktopManager.gnome.enable = true;
+    # videoDrivers = [ "nvidia" ];
+  };
+ 
+  # Enable Syncthing
+  services.syncthing.enable = true;
   
-  # Games
-  prismlauncher
-  heroic
-
-  # Others
-  openrgb
-  ];
-
-
-
+  # Enable Steam
+  programs.steam.enable = true;
+  
   # Nvidia stuff so my computer doesn't explode
   # Enable OpenGL
   hardware.graphics = {
@@ -189,6 +133,46 @@
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
+
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
+  environment.systemPackages = with pkgs; [
+  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+  #  wget
+    gnomeExtensions.blur-my-shell
+    gnomeExtensions.syncthing-toggle
+    gnomeExtensions.dash-to-dock
+    gnomeExtensions.tiling-shell
+    gnomeExtensions.paperwm
+    firefox-bin
+    anytype
+    prismlauncher-unwrapped
+    monado-vulkan-layers
+    opencomposite
+    orca-slicer
+    freecad
+    gparted
+  ];
+  
+environment.gnome.excludePackages = (with pkgs; [
+  atomix # puzzle game
+  cheese # webcam toolhardware.openrazer.enable
+  epiphany # web browser
+  evince # document viewer
+  geary # email reader
+  gedit # text editor
+  gnome-characters
+  gnome-music
+  gnome-photos
+  gnome-terminal
+  gnome-tour
+  hitori # sudoku game
+  iagno # go game
+  tali # poker game
+  totem # video player
+]);
+
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
